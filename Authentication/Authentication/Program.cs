@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity.Data;
+using Authentication.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,7 +75,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 
 // login endpoint logicleri buraya yazılacak
-app.MapPost("/login", (LoginRequest request) =>
+/*app.MapPost("/login", (LoginRequest request) =>
 {
 
     if (request.Email == "Tolga" && request.Password == "1905")
@@ -85,7 +86,7 @@ app.MapPost("/login", (LoginRequest request) =>
     else
         return Results.Unauthorized();
 });
-
+*/
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

@@ -25,11 +25,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-//JWT AYARLARI
-builder.Services.AddAuthentication(Options =>
+// JWT AYARLARI
+var jwtKey = builder.Configuration["JwtSettings:Secret"]
+    ?? throw new Exception("JWT Secret not found in appsettings.json");
+
+builder.Services.AddAuthentication(options =>
 {
-    Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
@@ -39,10 +42,10 @@ builder.Services.AddAuthentication(Options =>
         ValidateAudience = true,
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
-
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
+
 
 builder.Services.AddControllers();
 
@@ -87,6 +90,7 @@ app.MapGet("/weatherforecast", () =>
         return Results.Unauthorized();
 });
 */
+app.MapControllers();
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

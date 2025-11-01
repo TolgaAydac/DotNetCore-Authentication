@@ -40,7 +40,7 @@ namespace Authentication.Controllers
             {
                 Username = request.Username,
                 Email = request.Email,
-                Password = request.Password,
+                Password = PasswordHash,
                 Birthday = request.Birthday,
                 Gender = request.Gender
             };

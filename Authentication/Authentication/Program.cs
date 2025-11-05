@@ -7,6 +7,9 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity.Data;
 using Authentication.Models;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Authentication.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +55,9 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
+
 
 var app = builder.Build();
 
